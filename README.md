@@ -1,0 +1,1 @@
+This is an implementation of the board game Mastermind.  Players attempt to guess a four character code chosen by the computer.  Characters are chosen from A-F, and can be repeated in the code.  Programmed by Mark Pringle-Rigby.
