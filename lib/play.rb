@@ -2,17 +2,16 @@
 require_relative 'mastermind'
 
 puts "Welcome to Mastermind."
-current_round = Round.new
-current_round.play_round
-
-
-=begin
+human_role = ''
 loop do
-  play_game
-  puts "Type 'Y' to play again, or any other key to exit."
-  input = gets.chomp
-  if input[/[^Yy]/]
+  puts "Please enter '1' if you would like to be codemaker, or 2 if you would like to be codebreaker."
+  human_role = gets.chomp
+  if human_role.match(/[12]/)
     break
+  else
+    puts "Invalid input."
   end
 end
-=end
+
+current_round = Round.new
+current_round.play_round(human_role)

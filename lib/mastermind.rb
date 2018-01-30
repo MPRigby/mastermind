@@ -68,8 +68,12 @@ class Round
     [letter_and_position_correct, position_only_correct]
   end
 
-  def play_round
-    human_codemaker
+  def play_round(human_role)
+    if human_role == '1'
+      human_codemaker
+    else
+      computer_codemaker
+    end
   end
 
   def computer_codemaker
