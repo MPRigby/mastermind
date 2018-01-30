@@ -5,14 +5,22 @@ class ComputerPlayer
   end
 
   def guess_code
+    (0..3).map { rand(65..70).chr }.join
   end
 end
 
 class HumanPlayer
   def get_input
-    input = gets.chomp
-    input.upcase!
-    return check_input(input)
+    loop do
+      input = gets.chomp
+      input.upcase!
+      checked_input = check_input(input)
+      if checked_input.length != 4
+        puts checked_input #puts error description if user input is invalid
+      else
+        return checked_input
+      end
+    end
   end
 
   def check_input(input)
@@ -32,7 +40,6 @@ class Round
   def initialize
     @player = HumanPlayer.new
     @npc = ComputerPlayer.new
-    @code = @npc.generate_code
   end
 
   def compare_code(guess)
@@ -62,6 +69,11 @@ class Round
   end
 
   def play_round
+    human_codemaker
+  end
+
+  def computer_codemaker
+    @code = @npc.generate_code
     i=1
     winner = 'Computer'
     puts "Computer has set a 4 letter code using letters A-F.  Repeat letters are possible. You have 12 attempts to guess the code."
@@ -69,14 +81,7 @@ class Round
       guess = ''
       plurals = ['s', 's']
       puts "Input code guess #{i}:"
-      loop do
-        guess = @player.get_input
-        if guess.length != 4
-          puts guess #puts error description if user input is invalid
-        else
-          break
-        end
-      end
+      guess = @player.get_input
       result = compare_code(guess)
       if result == [4, 0]
         puts "The code is cracked!"
@@ -92,9 +97,26 @@ class Round
     end
     puts "#{winner} wins!"
   end
+
+  def human_codemaker
+    puts "Please input a 4 letter code using letters A-F.  Repeat letters are possible."
+    @code = @player.get_input
+    winner = "Computer failed to guess code.\nPlayer"
+    i = 1
+    12.times do
+      guess = @npc.guess_code()
+      puts "Guess #{i}: #{guess}"
+      result = compare_code(guess)
+      if result == [4, 0]
+        puts "The code is cracked!"
+        winner = 'Computer'
+        break
+      end
+      i+=1
+    end
+    puts "#{winner} wins!"
+  end
 end
-
-
 
 def play_full_game
 end
